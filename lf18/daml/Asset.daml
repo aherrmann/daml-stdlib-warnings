@@ -1,0 +1,19 @@
+module Asset where
+
+type AssetId = ContractId Asset
+
+template Asset
+  with
+    issuer : Party
+    owner  : Party
+    name   : Text
+  where
+    ensure name /= ""
+    signatory issuer
+    controller owner can
+      Give : AssetId
+        with
+          newOwner : Party
+        do
+          create this with
+            owner = newOwner
